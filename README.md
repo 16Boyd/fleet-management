@@ -30,7 +30,7 @@ The script reads skills from this checkout and copies them to:
 
 Run it from the repository checkout. It does not clone or pull the repository. `--dry-run` previews the destination paths; `--check` validates canonical skill names, frontmatter, and relative Markdown links without copying. `--home <path>` redirects all three destinations beneath a test home directory.
 
-`sync_agents.py` exports the root `AGENTS.md` to the Codex user configuration directory and translates role agents for Codex, Claude Code, and OpenCode. It supports the same `--check`, `--dry-run`, and `--home <path>` options. `--check` validates the source files without writing; `--dry-run` previews outputs and checks for unsafe collisions.
+`sync_agents.py` exports the root `AGENTS.md` to the Codex user configuration directory and translates role agents for Codex, Claude Code, and OpenCode. By default it syncs all three harnesses. Use `--harness claude` (or `codex` or `opencode`) to sync just one harness; this checks and updates only that harness destination. For example, to install the agents in Claude Code, run `python scripts/sync_agents.py --harness claude`. It supports the same `--check`, `--dry-run`, and `--home <path>` options. `--check` validates the source files without writing or checking destinations; `--dry-run` previews selected outputs and checks for unsafe collisions.
 
 ## Sync behavior
 
@@ -73,7 +73,7 @@ Model and reasoning values are target-native and opt-in per harness. The current
 
 The exporter writes shared guidance verbatim to Codex's `AGENTS.md`. Role agents go to each harness's `agents/` directory. `CODEX_HOME`, `CLAUDE_CONFIG_DIR`, and `OPENCODE_CONFIG_DIR` select destinations when set; `--home` redirects them beneath an isolated test home. Each harness config root has a `.repo-synced-agents.json` manifest. The script updates only listed outputs, refuses to overwrite unmanaged files, and removes stale outputs only when the manifest identifies them as managed by this repository.
 
-Use `python scripts/sync_agents.py --check` to validate source metadata, `python scripts/sync_agents.py --dry-run --home /tmp/agent-sync-home` to preview, and `python scripts/sync_agents.py --home /tmp/agent-sync-home` to exercise exports in an isolated directory.
+Use `python scripts/sync_agents.py --check` to validate source metadata, `python scripts/sync_agents.py --dry-run --home /tmp/agent-sync-home` to preview all harnesses, and `python scripts/sync_agents.py --harness claude --home /tmp/agent-sync-home` to exercise only the Claude export in an isolated directory.
 
 ## Skill discovery references
 

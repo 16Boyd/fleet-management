@@ -19,6 +19,7 @@ MANIFEST_NAME = ".repo-synced-agents.json"
 FRONTMATTER = re.compile(r"\A```toml\r?\n(.*?)\r?\n```(?:\r?\n|\Z)", re.DOTALL)
 NAME_PATTERN = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
 HARNESS_NAMES = {"codex", "claude", "opencode"}
+HARNESS_CHOICES = ("codex", "claude", "opencode")
 
 
 class SyncError(Exception):
@@ -270,6 +271,11 @@ def main() -> int:
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--check", action="store_true", help="validate canonical guidance and agent sources without writing")
     mode.add_argument("--dry-run", action="store_true", help="preview harness outputs without writing")
+    parser.add_argument(
+        "--harness",
+        choices=HARNESS_CHOICES,
+        help="sync only this harness (default: all supported harnesses)",
+    )
     parser.add_argument("--home", type=Path, help="redirect all harness destinations beneath this home directory")
     arguments = parser.parse_args()
     repository_root = Path(__file__).resolve().parents[1]
@@ -286,6 +292,8 @@ def main() -> int:
             print(f"Validated shared guidance and {len(agents)} agents: {', '.join(agent.name for agent in agents)}")
             return 0
         targets = destinations(arguments.home)
+        if arguments.harness is not None:
+            targets = {arguments.harness: targets[arguments.harness]}
         if not arguments.dry_run:
             for key, (_, base) in targets.items():
                 preflight_harness(base, outputs[key])
