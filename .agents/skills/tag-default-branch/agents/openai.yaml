@@ -1,0 +1,6 @@
+interface:
+  display_name: "Tag Default Branch"
+  short_description: "Propose and publish a confirmed release tag"
+  default_prompt: "Use $tag-default-branch to review changes on this repository's remote default branch and propose its next release tag."
+policy:
+  allow_implicit_invocation: false
