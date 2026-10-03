@@ -21,9 +21,9 @@ Use `python3` on macOS or Linux if `python` is not the Python 3 interpreter. On 
 
 The script reads skills from this checkout and copies them to:
 
-- `$CODEX_HOME/skills`, defaulting to `~/.codex/skills`
+- `$CODEX_HOME/skills`, defaulting to `~/.codex/skills`, for the T3 Code Codex provider
 - `$CLAUDE_CONFIG_DIR/skills`, defaulting to `~/.claude/skills`
-- `~/.agents/skills`, shared by Freebuff and OpenCode
+- `~/.agents/skills`, shared by current Codex CLI, Freebuff, and OpenCode
 
 Run it from the repository checkout. It does not clone or pull the repository. `--dry-run` previews the destination paths; `--check` validates canonical skill names, frontmatter, and relative Markdown links without copying. `--home <path>` redirects all three destinations beneath a test home directory.
 
@@ -35,18 +35,20 @@ The script replaces only destination skill folders whose names match skills in t
 
 | Harness | Skill discovery | Fleet sync destination |
 | --- | --- | --- |
-| Codex | Project `.agents/skills`; personal `$CODEX_HOME/skills` | `$CODEX_HOME/skills` |
+| T3 Code Codex provider | Uses the selected provider's native skills | `$CODEX_HOME/skills` |
+| Codex CLI | Project and personal `.agents/skills` | `~/.agents/skills` |
 | Claude Code | Project `.claude/skills`; personal `~/.claude/skills` | `$CLAUDE_CONFIG_DIR/skills` |
 | Freebuff | Project `.agents/skills` or `.claude/skills`; local interactive CLI can load home skills | `~/.agents/skills` |
 | OpenCode | Project and home `.agents/skills` or `.claude/skills` | `~/.agents/skills` |
-| T3 Code | Uses the selected provider's native skills; it has no separate global skill directory | Codex, Claude Code, or OpenCode destination above |
+| T3 Code Claude provider | Uses the selected provider's native skills | `$CLAUDE_CONFIG_DIR/skills` |
+| T3 Code OpenCode provider | Uses the selected provider's native skills | `~/.agents/skills` |
 
-The skill folders use the shared `SKILL.md` format. For remote or server contexts where Freebuff home skills are not loaded, use the repo's project-local `.agents/skills` directory. T3 Code's skill picker depends on its selected provider; refresh provider skills or restart the app if updates are not visible. Freebuff is not listed as a T3 Code provider in the current T3 Code documentation.
+The skill folders use the shared `SKILL.md` format. For remote or server contexts where Freebuff home skills are not loaded, use the repo's project-local `.agents/skills` directory. T3 Code's skill picker depends on its selected provider; refresh provider skills or restart the app if updates are not visible.
 
 ## Skill discovery references
 
 - [Codex skills](https://developers.openai.com/codex/skills)
-- [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
+- [Claude Code skills](https://code.claude.com/docs/en/skills)
 - [Freebuff skill guide](https://github.com/CodebuffAI/freebuff/blob/main/common/src/templates/initial-agents-dir/skills/README.md) and [loader](https://github.com/CodebuffAI/freebuff/blob/main/sdk/src/skills/load-skills.ts)
 - [OpenCode skills](https://opencode.ai/docs/skills/)
 - [T3 Code](https://github.com/pingdotgg/t3code)

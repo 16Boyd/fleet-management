@@ -169,9 +169,9 @@ def destinations(home_override: Path | None) -> list[tuple[str, Path]]:
     if home_override is not None:
         home = home_override.expanduser().resolve()
         return [
-            ("Codex", home / ".codex" / "skills"),
+            ("T3 Code Codex provider", home / ".codex" / "skills"),
             ("Claude Code and T3 Code Claude provider", home / ".claude" / "skills"),
-            ("Freebuff, OpenCode, and their T3 Code provider", home / ".agents" / "skills"),
+            ("Codex CLI, Freebuff, OpenCode, and T3 Code OpenCode provider", home / ".agents" / "skills"),
         ]
 
     home = Path.home()
@@ -180,9 +180,9 @@ def destinations(home_override: Path | None) -> list[tuple[str, Path]]:
     codex_home = Path(codex_home_value).expanduser() if codex_home_value else home / ".codex"
     claude_home = Path(claude_home_value).expanduser() if claude_home_value else home / ".claude"
     return [
-        ("Codex", codex_home / "skills"),
+        ("T3 Code Codex provider", codex_home / "skills"),
         ("Claude Code and T3 Code Claude provider", claude_home / "skills"),
-        ("Freebuff, OpenCode, and their T3 Code provider", home / ".agents" / "skills"),
+        ("Codex CLI, Freebuff, OpenCode, and T3 Code OpenCode provider", home / ".agents" / "skills"),
     ]
 
 
