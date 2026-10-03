@@ -34,4 +34,6 @@ Use this skill when the user asks you to watch an already-open pull request and 
 
 After addressing each batch, return to polling for newly arrived feedback. Stop when there are no unresolved actionable findings and the reviewer state is clear, the PR closes or merges, the user stops the task, or a concrete blocker makes further safe progress impossible. Do not stop merely because a fix was pushed while review feedback is still outstanding.
 
+Before finishing with an open PR, refresh its state from the PR host (including after any final push) and verify that it is mergeable: there are no merge conflicts, and all required checks, reviews, and repository policy gates are satisfied. If mergeability or any gate is `UNKNOWN` or pending, retry the refresh briefly. If it remains unknown or pending, or any required gate is unsatisfied, report the PR as blocked or unverified and do not claim it is ready to merge. Never merge the PR.
+
 If the runtime cannot maintain a background watcher, keep the polling loop active while this session runs and state that the watcher ends with the session; never claim it will continue in the background. Report the PR watched, new actionable findings, fixes and commits pushed, validation run, reviewer confirmation status, and any unresolved blocker. Never claim that feedback is resolved without evidence.
